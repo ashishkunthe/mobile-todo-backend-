@@ -16,6 +16,12 @@ router.post("/", async (req: AuthRequest, res) => {
   res.json(task);
 });
 
+router.get("/:id", async (req: AuthRequest, res) => {
+  const task = await Task.findOne({ _id: req.params.id, userId: req.userId });
+  if (!task) return res.status(404).json({ message: "Not found" });
+  res.json(task);
+});
+
 router.put("/:id", async (req: AuthRequest, res) => {
   const task = await Task.findOneAndUpdate(
     { _id: req.params.id, userId: req.userId },
